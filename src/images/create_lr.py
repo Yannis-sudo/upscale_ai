@@ -20,7 +20,7 @@ def create_lr():
             image_path = os.path.join(os.path.join(images_path, "hr"), image)
 
             # check db
-            cursor.execute("SELECT * FROM images WHERE path = ? AND lr = ?", (image_path, "true", ))
+            cursor.execute("SELECT * FROM images WHERE path_hr = ? AND lr = ?", (image_path, "true", ))
             res = cursor.fetchall()
             if len(res) != 0:
                 continue
@@ -37,7 +37,7 @@ def create_lr():
             cv2.imwrite(lr_path, lr)
 
             # update db
-            cursor.execute("UPDATE images SET lr = ? WHERE path = ?", ("true", image_path, ))
+            cursor.execute("UPDATE images SET path_lr = ?, lr = ? WHERE path_hr = ?", (lr_path, "true", image_path, ))
 
     conn.commit()
     conn.close()

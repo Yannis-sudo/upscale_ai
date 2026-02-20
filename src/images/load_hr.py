@@ -13,7 +13,6 @@ def load_images(path):
 
     files = os.listdir(path)
     for file in files:
-        print(file)
         if not file.endswith((".png", ".jpg", ".jpeg")):
             continue
 
@@ -40,12 +39,12 @@ def load_images(path):
         # add file to db
         # get images folder
         images_path = get_paths_json()["images_path"]
-        new_path = os.path.join(images_path, "hr", new_filename)
-        cursor.execute("INSERT INTO images (path, hr, lr, filename) VALUES (?, ?, ?, ?)", (new_path, "true", "false", new_filename, ))
+        new_path_hr = os.path.join(images_path, "hr", new_filename)
+        cursor.execute("INSERT INTO images (path_hr, hr, lr, filename) VALUES (?, ?, ?, ?)", (new_path_hr, "true", "false", new_filename, ))
 
         # copy file into hr folder
         old_path = os.path.join(path, file)
-        shutil.copy(old_path, new_path)
+        shutil.copy(old_path, new_path_hr)
 
     # close connection and save database
     conn.commit()
