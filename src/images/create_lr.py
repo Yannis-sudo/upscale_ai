@@ -1,20 +1,23 @@
 import os
 import sqlite3
 import cv2#type:ignore
+from src.utils import get_paths_json#type:ignore
 
 def create_lr():
     # database connection
-    conn = sqlite3.connect("/home/yannis/dev/upscale_ai/data/db/images.db")
+    conn = sqlite3.connect(get_paths_json()["images_db_path"])
     cursor = conn.cursor()
 
     scale_factor = 4    
 
-    images_hr= os.listdir("/home/yannis/dev/upscale_ai/data/images/hr")
-    images_lr = "/home/yannis/dev/upscale_ai/data/images/lr"
+    images_path = get_paths_json()["images_path"]
+
+    images_hr= os.listdir(os.path.join(images_path, "hr"))
+    images_lr = os.path.join(images_path, "lr")
 
     for image in images_hr:
         if image.endswith((".png", ".jpg", ".jpeg")):
-            image_path = os.path.join("/home/yannis/dev/upscale_ai/data/images/hr", image)
+            image_path = os.path.join(os.path.join(images_path, "hr"), image)
 
             # check db
             cursor.execute("SELECT * FROM images WHERE path = ? AND lr = ?", (image_path, "true", ))

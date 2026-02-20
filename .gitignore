@@ -213,3 +213,6 @@ data/json/path.json
 data/db
 data/images
 data/
+
+# VS Code
+.vscode/
