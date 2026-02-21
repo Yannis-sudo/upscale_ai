@@ -19,3 +19,11 @@ class SRCNN(nn.Module):
         x = self.relu2(self.conv2(x))
         x = self.conv3(x)
         return x
+    
+# Dummy Model
+class DummySRCNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = nn.Conv2d(1, 1, 3, padding=1)
+    def forward(self, x):
+        return self.conv(x)

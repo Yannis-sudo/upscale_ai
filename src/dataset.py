@@ -3,6 +3,7 @@ from PIL import Image
 import torchvision.transforms as transforms
 import src.utils as utils
 import sqlite3
+import torch
 
 class SuperResDataset(Dataset):
     def __init__(self):
@@ -48,3 +49,13 @@ class SuperResDataset(Dataset):
             self.hr_images.append(hr_path)
 
         conn.close()
+
+class DummyDataset(Dataset):
+    def __init__(self, size=16):
+        self.size=size
+    def __len__(self):
+        return self.size
+    def __getitem__(self, index):
+        lr = torch.randn(1, 32, 32) # Low Res Dummy
+        hr = torch.randn(1, 64, 64) # High Res Dummy
+        return lr, hr

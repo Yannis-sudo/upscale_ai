@@ -1,20 +1,32 @@
-from src.dataset import SuperResDataset
+from src.dataset import SuperResDataset, DummyDataset
 from torch.utils.data import DataLoader
-from src.model import SRCNN
+from src.model import SRCNN, DummySRCNN
 import torch
 import torch.optim as optim
 import torch.nn as nn
 import torch.nn.functional as F
 
-def training():
+def training(test_with_dummy = False):
     model = SRCNN()
+
+    if test_with_dummy:
+        model = DummySRCNN()
+
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
 
     train_dataset = SuperResDataset()
+
+    if test_with_dummy:
+        train_dataset = DummyDataset()
+
     train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
 
     num_epoch = 50
+
+    if test_with_dummy:
+        num_epoch = 2
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model.to(device)
 

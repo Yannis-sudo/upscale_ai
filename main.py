@@ -21,6 +21,6 @@ if len(sys.argv) > 1:
     elif arg == "create_lr_images":
         start_create_lr_images()
     elif arg == "test_training_loop":
-        training()
+        training(test_with_dummy=True)
     else:
         print("No such Argument")
