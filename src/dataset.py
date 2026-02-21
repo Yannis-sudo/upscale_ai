@@ -1,6 +1,5 @@
 from torch.utils.data import Dataset, DataLoader
 from PIL import Image
-import os
 import torchvision.transforms as transforms
 import src.utils as utils
 import sqlite3
@@ -9,6 +8,7 @@ class SuperResDataset(Dataset):
     def __init__(self):
         self.lr_images = []
         self.hr_images = []
+        self.load_images_to_array() # Load the images to lr_images and hr_images
         self.transform = transforms.ToTensor() # Transform images to tensor
     
     def __len__(self):
@@ -17,7 +17,7 @@ class SuperResDataset(Dataset):
     def __getitem__(self, idx):
         lr = Image.open(self.lr_images[idx]).convert('RGB')
         hr = Image.open(self.hr_images[idx]).convert('RGB')
-        self.transform(lr), self.transform(hr)
+        return self.transform(lr), self.transform(hr)
 
     def load_images_to_array(self):
         # database connection

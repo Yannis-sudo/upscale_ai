@@ -1,5 +1,4 @@
-import torch#type:ignore
-import torch.nn as nn#type:ignore
+import torch.nn as nn
 
 class SRCNN(nn.Module):
     def __init__(self):
