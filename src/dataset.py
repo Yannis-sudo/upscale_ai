@@ -8,8 +8,21 @@ class SuperResDataset(Dataset):
     def __init__(self):
         self.lr_images = []
         self.hr_images = []
+
+        self.crop_size = 256 # HR-Crop
+        self.scale_factor = 4
+
+        # Resize the images
+        self.lr_transform = transforms.Compose([
+            transforms.CenterCrop(self.crop_size), # LR-Images
+            transforms.ToTensor()
+        ])
+        self.hr_transform = transforms.Compose([
+            transforms.CenterCrop(self.crop_size // self.scale_factor), # HR-Images
+            transforms.ToTensor()
+        ])
+
         self.load_images_to_array() # Load the images to lr_images and hr_images
-        self.transform = transforms.ToTensor() # Transform images to tensor
     
     def __len__(self):
         return len(self.lr_images)
@@ -17,7 +30,7 @@ class SuperResDataset(Dataset):
     def __getitem__(self, idx):
         lr = Image.open(self.lr_images[idx]).convert('RGB')
         hr = Image.open(self.hr_images[idx]).convert('RGB')
-        return self.transform(lr), self.transform(hr)
+        return self.lr_transform(lr), self.hr_transform(hr)
 
     def load_images_to_array(self):
         # database connection

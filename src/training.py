@@ -4,6 +4,7 @@ from src.model import SRCNN
 import torch
 import torch.optim as optim
 import torch.nn as nn
+import torch.nn.functional as F
 
 def training():
     model = SRCNN()
@@ -24,8 +25,11 @@ def training():
             lr = lr.to(device)
             hr = hr.to(device)
 
+            # Upscale LR to HR
+            lr_up = F.interpolate(lr, size=(hr.size(2), hr.size(3)), mode='bilinear', align_corners=False)
+
             optimizer.zero_grad()
-            sr = model(lr)
+            sr = model(lr_up)
             loss = criterion(sr, hr)
             loss.backward()
             optimizer.step()

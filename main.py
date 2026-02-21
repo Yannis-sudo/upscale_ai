@@ -1,7 +1,7 @@
 from src.images.load_hr import load_images
 from src.images.create_lr import create_lr
 import sys
-
+from src.training import training
 
 # Scripts
 # Load HR Images
@@ -20,5 +20,7 @@ if len(sys.argv) > 1:
         start_load_images(path)
     elif arg == "create_lr_images":
         start_create_lr_images()
+    elif arg == "test_training_loop":
+        training()
     else:
         print("No such Argument")
