@@ -1,7 +1,7 @@
 import os
 import sqlite3
-import cv2#type:ignore
-from src.utils import get_paths_json#type:ignore
+import cv2
+from src.utils import get_paths_json
 
 def create_lr():
     # database connection

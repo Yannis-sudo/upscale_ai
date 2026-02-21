@@ -1,6 +1,7 @@
-from src.images.load_hr import load_images#type:ignore
-from src.images.create_lr import create_lr#type:ignore
+from src.images.load_hr import load_images
+from src.images.create_lr import create_lr
 import sys
+
 
 # Scripts
 # Load HR Images
